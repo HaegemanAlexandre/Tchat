@@ -1,3 +1,7 @@
+*{
+    box-sizing:border-box;
+}
+
 .writebox {
     width:90%;
     text-align:center;
@@ -6,11 +10,11 @@
     padding:20px 0 ;
     border-radius:30px;
 
-
+ 
 }
 
 .wrappermessage {
-    overflow:auto;
+    overflow-y:auto;
     height:80vh;
 }
 
@@ -20,17 +24,23 @@
 
 }
 
+.message {
+    width:100%;
+    
+}
 
 .contentMessages {
-    border-radius:30px;
     margin-bottom:10px;
     padding:10px;
     width: fit-content;
+    height:fit-content;
     max-width:40%;
+    max-height:auto;
     margin: 10px auto;
-    flex-direction:right;
     display:flex;
     flex-direction:column;
+    word-wrap:break-word;
+
 }
 
 .pseudo {

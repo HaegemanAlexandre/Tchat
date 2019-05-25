@@ -4,9 +4,11 @@
     <h3>Chat</h3>
 </section>
 <section class="writebox">
+
 <div class="wrappermessage">
 
 </div>
+
 <form class="writeform" method="POST" action="">
 <div class="send">
 <input type="text" name="writebox" id="writebox">
@@ -14,6 +16,5 @@
 </div>
 </form>
 </section>
-<?php dump($_POST);?>
 
  <?= view('footer') ?>

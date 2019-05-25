@@ -1,28 +1,29 @@
 var app = {
 
     
-
     init: function() {
 
         //console.log('demarré');
         var writebox = $('#writebox');
         var writeform = $('.writeform');
         var sendbox = $('#sendbox');
-
+        
+    
         writeform.submit(app.handleSubmitSendbox);   
         sendbox.click(app.addMessage);
-        //app.loadMessage();
-        //app.addMessage();
-        setInterval(app.loadMessage, 1000);
+        app.loadMessage();
+        setInterval(app.checkoutScroll, 3000);
+        //app.setTimer()
 
-        console.log($(".wrappermessage")[0]['scrollHeight']);
-        
+          
+
+
     },
 
     loadMessage : function() {
         $.ajax(
             {
-              url: 'http://localhost/tchat/tchat/public/loadmessage', // URL sur laquelle faire l'appel Ajax
+              url: 'http://localhost/tchat/public/loadmessage', // URL sur laquelle faire l'appel Ajax
               method: 'GET', // La méthode HTTP souhaité pour l'appel Ajax (GET ou POST)
               dataType: 'json'
 
@@ -31,7 +32,7 @@ var app = {
           ).done(function(responses) { // J'attache une fonction anonyme à l'évènement "Appel ajax fini avec succès" et je récupère le code de réponse en paramètre
             //console.log(response); // debug
             
-            //console.log(responses);
+            console.log('load');
 
             var messages = $('<div>').addClass('messages');
 
@@ -73,18 +74,30 @@ var app = {
                 }
                 
             });
-            console.log($(".wrappermessage")[0]['scrollHeight']);
-            //app.refreshh();
 
+            
+            app.refreshh();
             }).fail(function() { // J'attache une fonction anonyme à l'évènement "Appel ajax fini avec erreur"
             //alert('Réponse ajax incorrecte load');
             });
-            //app.refresh();
 
-            //$(".wrappermessage").scrollTop = $(".wrappermessage").scrollHeight;
-            //var h = $('wrappermessage').scrollHeight;
           
 
+    },
+
+    checkoutScroll : function() {
+
+      if ($(".wrappermessage")[0]['scrollTop'] + $(".wrappermessage")[0]['clientHeight'] == $(".wrappermessage")[0]['scrollHeight']) {
+        //console.log('refresh');
+       app.loadMessage();
+       //app.refreshh();
+
+      } else {
+        //console.log('else');
+        //app.stopTimer(app.setTimer);
+
+
+      }
     },
 
     handleSubmitSendbox : function(evt) {
@@ -94,13 +107,11 @@ var app = {
 
     addMessage: function(evt) {
 
-      console.log('add');
-
         var inputValue = $('#writebox').val();
         var input = $('#writebox');
         $.ajax(
             {
-              url: 'http://localhost/tchat/tchat/public/addmessage', // URL sur laquelle faire l'appel Ajax
+              url: 'http://localhost/tchat/public/addmessage', // URL sur laquelle faire l'appel Ajax
               method: 'POST', // La méthode HTTP souhaité pour l'appel Ajax (GET ou POST)
               dataType: 'json',
               data: {
@@ -110,7 +121,12 @@ var app = {
             }
           ).done(function(responses) { // J'attache une fonction anonyme à l'évènement "Appel ajax fini avec succès" et je récupère le code de réponse en paramètre
             app.loadMessage();
-            app.refreshh();
+            
+            
+              console.log('add');
+
+              app.refreshh();
+
             $('#writebox').val('');
           //$('<li>').html(inputValue).appendTo(messages).addClass('message');
 
@@ -120,10 +136,10 @@ var app = {
    
     },
     refresh: function(){
-      
-      $(".wrappermessage").scrollTop($(".wrappermessage")[0].clientHeight);
+      $(".wrappermessage").scrollTop($(".wrappermessage")[0]['scrollHeight']);
 
     },
+     
     refreshh: function(){
       
       $(".wrappermessage").scrollTop($(".wrappermessage")[0]['scrollHeight']);
@@ -132,4 +148,3 @@ var app = {
 }
 
 $(app.init);
-document.addEventListener("DOMContentLoaded", app.refreshh);
